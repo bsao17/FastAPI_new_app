@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "fastapi-project"
+version = "0.1.0"
+description = ""
+authors = ["Bruno M <declic62àgmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+fastapi = {extras = ["all"], version = "^0.103.2"}
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
