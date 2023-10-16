@@ -13,7 +13,7 @@ class Person(str, Enum):
 
 @app.get("/{person}")
 async def persons(person: Person):
-    if person is person.John:
+    if request is person.John:
         return {"message": f"Hello {person} Doe"}
     else:
         return {"message": f"Hello {person} Doe"}
