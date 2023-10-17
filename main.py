@@ -26,8 +26,20 @@ Returns:
 
 
 @app.get("/items/")
-async def read_item(skip: Union[int, None] = 0, limit: Union[int, None] = 10):
+async def read_item(skip: int = 0, limit: Union[int, None] = 3):
     return fake_items_db[skip: skip + limit]
+
+
+@app.get("/items/{item_id}")
+async def read_item(item_id: str, q: str | None = None, short: bool | None = None):
+    item = {"item_id": item_id}
+    if q:
+        item.update({"q": q})
+    if not short:
+        item.update(
+            {"description": "This is an item that does not have a description"}
+        )
+    return item
 
 
 @app.get("/{person}")
@@ -45,3 +57,9 @@ async def persons(person: Person):
         return {"message": f"Hello {person} Doe"}
     else:
         return {"message": f"Hello {person} Doe"}
+
+
+@app.get("/iterable/{item}")
+def iterable(item: int):
+    items = [x for x in range(item)]
+    return {"items": items}
