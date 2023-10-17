@@ -1,5 +1,5 @@
 from urllib import request
-
+from typing import Optional, Union
 from fastapi import FastAPI
 from enum import Enum
 
@@ -14,7 +14,7 @@ class Person(str, Enum):
 
 
 @app.get("/items/")
-async def read_item(skip: int = 0, limit: int = 10):
+async def read_item(skip: Union[int, None] = 0, limit: Union[int, None] = 10):
     return fake_items_db[skip: skip + limit]
 
 
