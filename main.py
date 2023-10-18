@@ -1,9 +1,13 @@
 from urllib import request
+
+from pydantic import BaseModel
+from tinydb import TinyDB, Query
 from typing import Optional, Union
 from fastapi import FastAPI
 from enum import Enum
 
 app = FastAPI()
+db = TinyDB("db.json")
 
 fake_items_db = [{"item_name": "Foo"}, {"item_name": "Bar"}, {"item_name": "Baz"}]
 
@@ -11,6 +15,13 @@ fake_items_db = [{"item_name": "Foo"}, {"item_name": "Bar"}, {"item_name": "Baz"
 class Person(str, Enum):
     John = "John"
     Jane = "Jane"
+
+
+class Users(BaseModel):
+    user_id: int
+    item_id: int
+    q: str | None = None
+    short: bool | None = False
 
 
 """
@@ -73,3 +84,8 @@ async def read_user_item(user_id: int, item_id: int, q: str | None = None, short
     if not short:
         return {"short": "short value is to False !"}
     return item
+
+
+@app.post("/add_user/{user_id}/item/{item_id}")
+def write_new_user(user_id: int, item_id: int, q: str | None = None, short: bool | None = False):
+    return {"user_id": user_id, "item_id": item_id, "short": True}
