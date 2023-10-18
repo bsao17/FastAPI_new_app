@@ -24,6 +24,8 @@ class Users(BaseModel):
     short: bool | None = False
 
 
+user_3 = Users(3, 3, "three", True)
+
 """
 Retrieves items from the fake_items_db based on the given skip and limit parameters.
 
@@ -86,6 +88,6 @@ async def read_user_item(user_id: int, item_id: int, q: str | None = None, short
     return item
 
 
-@app.post("/add_user/{user_id}/item/{item_id}")
-def write_new_user(user_id: int, item_id: int, q: str | None = None, short: bool | None = False):
-    return {"user_id": user_id, "item_id": item_id, "short": True}
+@app.post("/add_user/")
+def write_new_user(user: Users):
+    return user
