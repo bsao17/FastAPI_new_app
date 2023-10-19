@@ -1,1 +1,392 @@
-{"openapi":"3.1.0","info":{"title":"FastAPI","version":"0.1.0"},"paths":{"/item/":{"get":{"summary":"Fake Item","description":"Retrieves items from the fake_items_db based on the given skip and limit parameters.\n\nParameters:\n- skip (Union[int, None], optional): The number of items to skip. Defaults to 0.\n- limit (Union[int, None], optional): The maximum number of items to retrieve. Defaults to 10.\n\nReturns:\n- List: A list of items retrieved from fake_items_db.","operationId":"fake_item_item__get","parameters":[{"name":"skip","in":"query","required":false,"schema":{"type":"integer","default":0,"title":"Skip"}},{"name":"limit","in":"query","required":false,"schema":{"anyOf":[{"type":"integer"},{"type":"null"}],"default":3,"title":"Limit"}}],"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}}},"/items/{item_id}":{"get":{"summary":"Read Item","operationId":"read_item_items__item_id__get","parameters":[{"name":"item_id","in":"path","required":true,"schema":{"type":"string","title":"Item Id"}},{"name":"q","in":"query","required":false,"schema":{"anyOf":[{"type":"string"},{"type":"null"}],"title":"Q"}},{"name":"short","in":"query","required":false,"schema":{"anyOf":[{"type":"boolean"},{"type":"null"}],"title":"Short"}}],"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}}},"/{person}":{"get":{"summary":"Persons","description":"A function that handles requests to the \"/{person}\" endpoint.\n\nParameters:\n- person (Person): The person object representing the person being requested.\n\nReturns:\n- dict: A dictionary containing the response message.","operationId":"persons__person__get","parameters":[{"name":"person","in":"path","required":true,"schema":{"$ref":"#/components/schemas/Person"}}],"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}}},"/iterable/{item}":{"get":{"summary":"Iterable","operationId":"iterable_iterable__item__get","parameters":[{"name":"item","in":"path","required":true,"schema":{"type":"integer","title":"Item"}}],"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}}},"/listing/":{"get":{"summary":"Listening","operationId":"listening_listing__get","parameters":[{"name":"q","in":"query","required":false,"schema":{"anyOf":[{"type":"array","items":{"type":"string"}},{"type":"null"}],"title":"Q"}}],"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}}},"/add_user/":{"post":{"summary":"Add New User","description":"Adds a new user to the database.\n\nParameters:\n- user (Users): The user object containing the user ID, item ID, q, and short.\n\nReturns:\n- Users: The added user object.","operationId":"add_new_user_add_user__post","requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/Users"}}},"required":true},"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}}}},"components":{"schemas":{"HTTPValidationError":{"properties":{"detail":{"items":{"$ref":"#/components/schemas/ValidationError"},"type":"array","title":"Detail"}},"type":"object","title":"HTTPValidationError"},"Person":{"type":"string","enum":["John","Jane"],"title":"Person"},"Users":{"properties":{"user_id":{"type":"integer","title":"User Id"},"item_id":{"type":"integer","title":"Item Id"},"q":{"anyOf":[{"type":"string","maxLength":50},{"type":"null"}],"title":"Q"},"short":{"anyOf":[{"type":"boolean"},{"type":"null"}],"title":"Short","default":true}},"type":"object","required":["user_id","item_id"],"title":"Users"},"ValidationError":{"properties":{"loc":{"items":{"anyOf":[{"type":"string"},{"type":"integer"}]},"type":"array","title":"Location"},"msg":{"type":"string","title":"Message"},"type":{"type":"string","title":"Error Type"}},"type":"object","required":["loc","msg","type"],"title":"ValidationError"}}}}
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "FastAPI",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/item/": {
+      "get": {
+        "summary": "Fake Item",
+        "description": "Retrieves items from the fake_items_db based on the given skip and limit parameters.\n\nParameters:\n- skip (Union[int, None], optional): The number of items to skip. Defaults to 0.\n- limit (Union[int, None], optional): The maximum number of items to retrieve. Defaults to 10.\n\nReturns:\n- List: A list of items retrieved from fake_items_db.",
+        "operationId": "fake_item_item__get",
+        "parameters": [
+          {
+            "name": "skip",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 0,
+              "title": "Skip"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": 3,
+              "title": "Limit"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/items/{item_id}": {
+      "get": {
+        "summary": "Read Item",
+        "operationId": "read_item_items__item_id__get",
+        "parameters": [
+          {
+            "name": "item_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Item Id"
+            }
+          },
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Q"
+            }
+          },
+          {
+            "name": "short",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Short"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/{person}": {
+      "get": {
+        "summary": "Persons",
+        "description": "A function that handles requests to the \"/{person}\" endpoint.\n\nParameters:\n- person (Person): The person object representing the person being requested.\n\nReturns:\n- dict: A dictionary containing the response message.",
+        "operationId": "persons__person__get",
+        "parameters": [
+          {
+            "name": "person",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Person"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/iterable/{item}": {
+      "get": {
+        "summary": "Iterable",
+        "operationId": "iterable_iterable__item__get",
+        "parameters": [
+          {
+            "name": "item",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Item"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/listing/": {
+      "get": {
+        "summary": "Listening",
+        "operationId": "listening_listing__get",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Q"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/add_user/": {
+      "post": {
+        "summary": "Add New User",
+        "description": "Adds a new user to the database.\n\nParameters:\n- user (Users): The user object containing the user ID, item ID, q, and short.\n\nReturns:\n- Users: The added user object.",
+        "operationId": "add_new_user_add_user__post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Users"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "Person": {
+        "type": "string",
+        "enum": [
+          "John",
+          "Jane"
+        ],
+        "title": "Person"
+      },
+      "Users": {
+        "properties": {
+          "user_id": {
+            "type": "integer",
+            "title": "User Id"
+          },
+          "item_id": {
+            "type": "integer",
+            "title": "Item Id"
+          },
+          "q": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 50
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Q"
+          },
+          "short": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Short",
+            "default": true
+          }
+        },
+        "type": "object",
+        "required": [
+          "user_id",
+          "item_id"
+        ],
+        "title": "Users"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    }
+  }
+}
