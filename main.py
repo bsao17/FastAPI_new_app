@@ -21,10 +21,8 @@ class Users(BaseModel):
     user_id: int
     item_id: int
     q: str | None = None
-    short: bool | None = False
+    short: bool | None = True
 
-
-user_3 = Users(3, 3, "three", True)
 
 """
 Retrieves items from the fake_items_db based on the given skip and limit parameters.
@@ -78,16 +76,14 @@ def iterable(item: int):
     return {"items": items}
 
 
-@app.get("/users/{user_id}/items/{item_id}")
-async def read_user_item(user_id: int, item_id: int, q: str | None = None, short: bool = False):
-    item = {"user_id": user_id, "item_id": item_id}
-    if q:
-        item.update({"q": q})
-    if not short:
-        return {"short": "short value is to False !"}
-    return item
-
-
 @app.post("/add_user/")
-def write_new_user(user: Users):
+async def add_new_user(user: Users):
+    all_item = db.all()
+    all_id = []
+    for item in all_item:
+        all_id.append(item["user_id"])
+    if user.user_id in all_id:
+        pass
+    else:
+        db.insert({"user_id": user.user_id, "item_id": user.item_id, "q": user.q, "short": user.short})
     return user
